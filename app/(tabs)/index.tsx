@@ -1,10 +1,30 @@
-import { StyleSheet, Text, View } from "react-native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { StyleSheet } from "react-native";
+import IconButton from "../components/UI/IconButton";
+import AddPlace from "./AddPlace";
+import AllPlaces from "./AllPlaces";
 
 export default function HomeScreen() {
+  const Stack = createNativeStackNavigator();
+
   return (
-    <View style={styles.container}>
-      <Text>Home</Text>
-    </View>
+    <Stack.Navigator>
+      <Stack.Screen
+        name="AllPlaces"
+        component={AllPlaces}
+        options={{
+          headerRight: ({ tintColor }) => (
+            <IconButton
+              icon="add"
+              size={24}
+              color={tintColor!}
+              onPress={() => {}}
+            />
+          ),
+        }}
+      />
+      <Stack.Screen name="AddPlace" component={AddPlace} />
+    </Stack.Navigator>
   );
 }
 
