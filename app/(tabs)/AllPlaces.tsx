@@ -1,9 +1,5 @@
-import { Text, View } from "react-native";
+import PlacesList from "../components/PlacesList/PlacesList";
 
 export default function AllPlaces() {
-  return (
-    <View>
-      <Text>AllPlaces</Text>
-    </View>
-  );
+  return <PlacesList places={[]} />;
 }
