@@ -3,26 +3,36 @@ import { useCameraPermissions } from "expo-camera";
 import { launchCameraAsync } from "expo-image-picker";
 // import { PermissionStatus } from "expo-permissions";
 import { useState } from "react";
-import { Alert, Button, Image, StyleSheet, Text, View } from "react-native";
+import { Button, Image, StyleSheet, Text, View } from "react-native";
 
-export default function ImagePicker() {
+export default function ImagePicker({
+  onTakeImage,
+}: {
+  onTakeImage: (imageUri: string) => void;
+}) {
   const [image, setImage] = useState<string | null>(null);
   const [cameraPermissionInformation, requestPermission] =
     useCameraPermissions();
 
   async function verifyPermission() {
-    if (cameraPermissionInformation?.status === "undetermined") {
+    console.log(cameraPermissionInformation);
+    if (
+      cameraPermissionInformation?.status === "undetermined" ||
+      cameraPermissionInformation?.status === "denied"
+    ) {
       const permissionResponse = await requestPermission();
       return permissionResponse.granted;
     }
 
-    if (cameraPermissionInformation?.status === "denied") {
-      Alert.alert(
-        "Insufficient permissions!",
-        "You need to grant camera permissions to use this app.",
-      );
-      return false;
-    }
+    // this is done due to my default permission is coming as denied
+
+    // if (cameraPermissionInformation?.status === "denied") {
+    //   Alert.alert(
+    //     "Insufficient permissions!",
+    //     "You need to grant camera permissions to use this app.",
+    //   );
+    //   return false;
+    // }
 
     return true;
   }
@@ -32,12 +42,13 @@ export default function ImagePicker() {
     if (!hasPermission) {
       return;
     }
-    const image = await launchCameraAsync({
+    const { assets } = await launchCameraAsync({
       allowsEditing: true,
       aspect: [16, 9],
       quality: 0.5,
     });
-    setImage(image!.assets![0]!.uri);
+    setImage(assets![0]!.uri);
+    onTakeImage(assets![0]!.uri);
   }
 
   let imagePreview = <Text>No Image Taken Yet</Text>;
