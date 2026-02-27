@@ -3,6 +3,7 @@ import {
   getCurrentPositionAsync,
   useForegroundPermissions,
 } from "expo-location";
+import { useNavigation } from "expo-router";
 import { useState } from "react";
 import { Alert, Image, StyleSheet, Text, View } from "react-native";
 import getMapPreview from "../../util/location";
@@ -15,6 +16,7 @@ export default function LocationPicker() {
   } | null>(null);
 
   const [locationPermission, requestPermission] = useForegroundPermissions();
+  const navigation = useNavigation();
 
   async function verifyPermissions() {
     if (locationPermission?.status === "undetermined") {
@@ -47,7 +49,9 @@ export default function LocationPicker() {
     });
   }
 
-  function pickLocationHandler() {}
+  function pickLocationHandler() {
+    navigation.navigate("Map");
+  }
 
   let locatonPreview = <Text>No location picked yet.</Text>;
 

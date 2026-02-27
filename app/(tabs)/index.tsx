@@ -4,6 +4,7 @@ import { Colors } from "../../constants/colors";
 import IconButton from "../components/UI/IconButton";
 import AddPlace from "./AddPlace";
 import AllPlaces from "./AllPlaces";
+import Map from "./Map";
 
 export default function HomeScreen() {
   const Stack = createNativeStackNavigator();
@@ -32,6 +33,7 @@ export default function HomeScreen() {
         })}
       />
       <Stack.Screen name="AddPlace" component={AddPlace} />
+      <Stack.Screen name="Map" component={Map} />
     </Stack.Navigator>
   );
 }
