@@ -1,23 +1,39 @@
 import { Colors } from "@/constants/colors";
+import { useIsFocused, useRoute } from "@react-navigation/native";
 import {
   getCurrentPositionAsync,
   useForegroundPermissions,
 } from "expo-location";
 import { useNavigation } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Alert, Image, StyleSheet, Text, View } from "react-native";
 import getMapPreview from "../../util/location";
 import OutlinedButton from "../UI/OutlinedButton";
 
 export default function LocationPicker() {
   const [pickedLocation, setPickedLocation] = useState<{
-    latitude: number;
-    longitude: number;
+    lat: number;
+    lng: number;
   } | null>(null);
 
-  const [locationPermission, requestPermission] = useForegroundPermissions();
   const navigation = useNavigation();
+  const route = useRoute();
+  const isFocused = useIsFocused();
 
+  const [locationPermission, requestPermission] = useForegroundPermissions();
+
+  useEffect(() => {
+    if (isFocused && route.params) {
+      console.log("route.params", route.params);
+      const mapPickedLocation: any = {
+        lat: route.params.pickedLat,
+        lng: route.params.pickedLng,
+      };
+      setPickedLocation(mapPickedLocation);
+    }
+  }, [route, isFocused]);
+
+  console.log("pickedLocation", pickedLocation);
   async function verifyPermissions() {
     if (locationPermission?.status === "undetermined") {
       const permissionResponse = await requestPermission();
@@ -42,10 +58,9 @@ export default function LocationPicker() {
     }
 
     const location = await getCurrentPositionAsync();
-    console.log(location);
     setPickedLocation({
-      latitude: location.coords.latitude,
-      longitude: location.coords.longitude,
+      lat: location.coords.latitude,
+      lng: location.coords.longitude,
     });
   }
 
@@ -59,10 +74,7 @@ export default function LocationPicker() {
     locatonPreview = (
       <Image
         source={{
-          uri: getMapPreview(
-            pickedLocation?.latitude,
-            pickedLocation?.longitude,
-          ),
+          uri: getMapPreview(pickedLocation?.lat, pickedLocation?.lng),
         }}
         style={styles.image}
       />
