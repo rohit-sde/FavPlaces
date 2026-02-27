@@ -24,8 +24,8 @@ export default function LocationPicker({
     lng: number;
   } | null>(null);
 
-  const navigation = useNavigation();
-  const route = useRoute();
+  const navigation = useNavigation<any>();
+  const route = useRoute<any>();
   const isFocused = useIsFocused();
 
   const [locationPermission, requestPermission] = useForegroundPermissions();
