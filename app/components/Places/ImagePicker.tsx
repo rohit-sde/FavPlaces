@@ -37,8 +37,6 @@ export default function ImagePicker() {
       aspect: [16, 9],
       quality: 0.5,
     });
-    console.log("hi.......................................");
-    console.log("Image: ", image!.assets![0]!.uri);
     setImage(image!.assets![0]!.uri);
   }
 

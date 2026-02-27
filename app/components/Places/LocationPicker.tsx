@@ -24,7 +24,6 @@ export default function LocationPicker() {
 
   useEffect(() => {
     if (isFocused && route.params) {
-      console.log("route.params", route.params);
       const mapPickedLocation: any = {
         lat: route.params.pickedLat,
         lng: route.params.pickedLng,
@@ -33,7 +32,6 @@ export default function LocationPicker() {
     }
   }, [route, isFocused]);
 
-  console.log("pickedLocation", pickedLocation);
   async function verifyPermissions() {
     if (locationPermission?.status === "undetermined") {
       const permissionResponse = await requestPermission();

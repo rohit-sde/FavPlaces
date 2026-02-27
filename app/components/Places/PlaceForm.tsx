@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { Colors } from "../../../constants/colors";
+import Button from "../UI/Button";
 import ImagePicker from "./ImagePicker";
 import LocationPicker from "./LocationPicker";
 
@@ -9,6 +10,10 @@ export default function PlaceForm() {
 
   function changeTitleHandler(enteredText: string) {
     setEnteredTitle(enteredText);
+  }
+
+  function savePlaceHandler() {
+    console.log(enteredTitle);
   }
 
   return (
@@ -22,6 +27,7 @@ export default function PlaceForm() {
         />
         <ImagePicker />
         <LocationPicker />
+        <Button onPress={savePlaceHandler}>Save Place</Button>
       </View>
     </ScrollView>
   );
