@@ -1,10 +1,12 @@
-import { View } from "react-native";
+import { Place } from "@/models/place";
 import PlaceForm from "../components/Places/PlaceForm";
 
-export default function AddPlace() {
-  return (
-    <View style={{ flex: 1 }}>
-      <PlaceForm />
-    </View>
-  );
+export default function AddPlace({ navigation }: { navigation: any }) {
+  function createPlaceHandler(placeData: Place) {
+    navigation.navigate("AllPlaces", {
+      place: placeData,
+    });
+  }
+
+  return <PlaceForm onCreatePlace={createPlaceHandler} />;
 }
