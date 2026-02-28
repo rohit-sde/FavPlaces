@@ -20,14 +20,15 @@ export async function init() {
 // ✅ Insert
 export async function insertPlace(place) {
   const result = await db.runAsync(
-    `INSERT INTO places (title, imageUri, address, lat, lng)
-     VALUES (?, ?, ?, ?, ?)`,
+    `INSERT INTO places (title, imageUri, address, lat, lng,id)
+     VALUES (?, ?, ?, ?, ?,?)`,
     [
       place.title,
       place.imageUri,
       place.address,
       place.location.lat,
       place.location.lng,
+      place.id,
     ],
   );
 
@@ -53,4 +54,9 @@ export async function fetchPlaces() {
   );
 
   return places;
+}
+
+export async function fetchPlaceDetails(id) {
+  const rows = await db.getAllAsync("SELECT * FROM places WHERE id = ?", [id]);
+  return rows[0];
 }

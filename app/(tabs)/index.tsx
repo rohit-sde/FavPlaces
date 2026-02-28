@@ -8,6 +8,7 @@ import IconButton from "../components/UI/IconButton";
 import AddPlace from "./AddPlace";
 import AllPlaces from "./AllPlaces";
 import Map from "./Map";
+import PlaceDetails from "./PlaceDetails";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -61,6 +62,11 @@ export default function HomeScreen() {
       />
       <Stack.Screen name="AddPlace" component={AddPlace} />
       <Stack.Screen name="Map" component={Map} />
+      <Stack.Screen
+        name="PlaceDetails"
+        component={PlaceDetails}
+        options={{ title: "Loading Place..." }}
+      />
     </Stack.Navigator>
   );
 }

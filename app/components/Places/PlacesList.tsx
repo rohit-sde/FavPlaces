@@ -1,9 +1,16 @@
+import { useNavigation } from "expo-router";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { Colors } from "../../../constants/colors";
 import { Place } from "../../../models/place";
 import PlaceItem from "./PlaceItem";
 
 export default function PlacesList({ places }: { places: Place[] }) {
+  const navigation = useNavigation();
+
+  function selectPlaceHandler(id: string) {
+    navigation.navigate<any>("PlaceDetails", { placeId: id });
+  }
+
   if (!places || places.length === 0) {
     return (
       <View style={styles.fallbackContainer}>
@@ -16,7 +23,9 @@ export default function PlacesList({ places }: { places: Place[] }) {
       style={styles.list}
       data={places}
       keyExtractor={(item) => item.id}
-      renderItem={({ item }) => <PlaceItem place={item} onSelect={() => {}} />}
+      renderItem={({ item }) => (
+        <PlaceItem place={item} onSelect={selectPlaceHandler} />
+      )}
     />
   );
 }
