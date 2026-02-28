@@ -7,7 +7,7 @@ import {
 import { useNavigation } from "expo-router";
 import { useEffect, useState } from "react";
 import { Alert, Image, StyleSheet, Text, View } from "react-native";
-import getMapPreview, { getAddress } from "../../util/location";
+import getMapPreview, { getAddress } from "../../../util/location";
 import OutlinedButton from "../UI/OutlinedButton";
 
 export default function LocationPicker({
