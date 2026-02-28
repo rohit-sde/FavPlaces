@@ -1,13 +1,15 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import AppLoading from "expo-app-loading";
+import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useState } from "react";
 import { Alert, StyleSheet } from "react-native";
 import { Colors } from "../../constants/colors";
+import { init } from "../../util/database";
 import IconButton from "../components/UI/IconButton";
-import { init } from "../util/database";
 import AddPlace from "./AddPlace";
 import AllPlaces from "./AllPlaces";
 import Map from "./Map";
+
+SplashScreen.preventAutoHideAsync();
 
 export default function HomeScreen() {
   const [dbIsInitialized, setDbIsInitialized] = useState(false);
@@ -15,17 +17,24 @@ export default function HomeScreen() {
   const Stack = createNativeStackNavigator();
 
   useEffect(() => {
-    init()
-      .then(() => setDbIsInitialized(true))
-      .catch((error) => {
+    async function prepare() {
+      try {
+        await init();
+        setDbIsInitialized(true);
+      } catch (error) {
         console.log(error);
         Alert.alert("Initializing database failed!", "Please try again later.");
-      });
+      } finally {
+        await SplashScreen.hideAsync();
+      }
+    }
+
+    prepare();
   }, []);
 
-  if (!dbIsInitialized) {
-    return <AppLoading />;
-  }
+  // if (!dbIsInitialized) {
+  //   return <AppLoading />;
+  // }
 
   return (
     <Stack.Navigator
